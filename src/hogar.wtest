@@ -1,0 +1,12 @@
+
+describe "group of tests" {
+
+	test "testX" {
+		const banito = new Banio()
+		const luki = new Habitante(edad = 3)
+		const ana = new Habitante(edad = 28)
+		
+		assert.equals(12, banito.unidadesDeConfort(luki))
+		assert.equals(3,luki.edadHabitante())
+	}
+}
