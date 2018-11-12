@@ -1,12 +1,48 @@
+import habitacion.*
+import persona.*
 
-describe "group of tests" {
+describe "Test Hogar" {
 
-	test "testX" {
-		const banito = new Banio()
-		const luki = new Habitante(edad = 3)
-		const ana = new Habitante(edad = 28)
+		const general = new UsoGeneral()
+		const banio = new Banio()
+		const dormitorio = new Dormitorio()
+		const cocina = new Cocina()
+			
+
+		const persona1 = new Persona()
+		const persona2 = new Persona()
+		const enano1 = new Persona()
 		
-		assert.equals(12, banito.unidadesDeConfort(luki))
-		assert.equals(3,luki.edadHabitante())
+		fixture {
+			persona1.edad(16)
+			enano1.edad(3)		
+			dormitorio.agregarDuenio(persona1)
+			dormitorio.agregarDuenio(persona2)
+			persona1.esDuenio()
+			enano1.noEsDuenio()
+			persona2.esDuenio()
+			persona2.tieneHabilidad()
+			
+			cocina.metrosCocina(10)
+		}	
+	
+	test "Puntos Confort Uso General" {
+		
+		assert.equals(10, general.unidadesDeConfort(persona1))
+	}
+
+	test "Puntos Confort banio" {
+		
+		assert.equals(14, banio.unidadesDeConfort(persona1))
+		assert.equals(12, banio.unidadesDeConfort(enano1))
+	}
+	test "punto Confort Dormitorio"{
+		
+		assert.equals(15, dormitorio.unidadesDeConfort(persona1))
+	}
+	test "punto Confort Cocina"{
+		
+		
+		assert.equals(11,cocina.unidadesDeConfort(persona2))
 	}
 }
