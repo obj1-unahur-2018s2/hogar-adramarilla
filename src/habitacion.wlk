@@ -2,6 +2,20 @@ import persona.*
 
 class Habitacion {
 	var confort = 10
+	var adentroHabitacion = #{}
+	
+	method entrarHabitacion(persona){
+		if (adentroHabitacion.size() == 0) {
+			adentroHabitacion.add(persona)}
+	}
+
+	method salirHabitacion(persona) {
+		adentroHabitacion.remove(persona)
+	}
+	
+	method estaEnHabitacion(persona){
+		return adentroHabitacion.contains(persona)
+	}
 	
 	method unidadesDeConfort(persona) {
 		return confort
@@ -18,19 +32,34 @@ class Banio inherits Habitacion {
 		if (persona.edad() <= 4) {return confort + 2} 
 		else {return confort + 4}
 		}
+		
+	override method entrarHabitacion(persona) {
+		super(persona)	
+		if (adentroHabitacion.any({j =>j.edad() <= 4})) {
+			adentroHabitacion.add(persona)}
+		else if (persona.edad() <= 4) {
+			adentroHabitacion.add(persona)}
+		else {self.error(" No puede ingresar ")}
+		}
 }
 
 class Dormitorio inherits Habitacion{
 	 var duenios =#{}
 	 
 	 method agregarDuenio(persona){
-	 	duenios.add(persona)
-	 }
+	 	duenios.add(persona) }
 	 
 	 override method unidadesDeConfort(persona){
 	 return super(persona) + (if (persona.duenio()) {10 / duenios.size()}
 	 else {0})
 	 }
+	 
+ 	override method entrarHabitacion(persona) { 
+		super(persona)
+		if(persona.duenio()) {adentroHabitacion.add(persona)}
+			else if (adentroHabitacion == duenios) {adentroHabitacion.add(persona)}
+						else {self.error(" No puede ingresar")}
+	}
 }
 
 class Cocina inherits Habitacion {
@@ -39,78 +68,21 @@ class Cocina inherits Habitacion {
 	var porcentaje = 10
 	
 	method unidadExtraCocina() {
-		return (porcentaje*metrosCocina)/100
-	}
+		return (porcentaje*metrosCocina)/100}
 	
 	override method unidadesDeConfort(persona){
 		if (persona.habilidad()) {return super(persona) + self.unidadExtraCocina()}
 		else {return super(persona)} 
-		
+	}
+	
+	override method entrarHabitacion(persona) { 
+		super(persona)
+		if (not persona.habilidadCocina()) {adentroHabitacion.add(persona)}
+			else {
+				if(adentroHabitacion.any({h => h.habilidadCocina()})){
+					self.error("No puede ingresar")
+				}
+					else {adentroHabitacion.add(persona)}
+			}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-//class Habitante {
-//	var property edad = 0
-//	var property habCocina = false
-// 
-// 	method edadHabitante() { return edad }
-// 	method aprendioCocinar() { habCocina = true}
-// 	method tienehabilidadesCocina() { return habCocina }
-//	//method confor(persona) { return 14}
-//}
-//
-//class Habitacion inherits Habitante{
-//	var property unidadesDeConfort = 10
-//	
-//	
-//}
-//
-//class UsoGeneral inherits Habitacion{
-//	
-//	}
-//	
-//class Banio inherits Habitacion {
-//	
-//	method unidadesDeConfort(habit) {
-//		
-//		if (habit.edadHabitante() <= 4) {return unidadesDeConfort + 2} 
-//		else {return unidadesDeConfort + 4}
-//	}
-//}
-//
-//class Dormitorio inherits Habitacion {
-//	const duenios = #{}
-//	
-//	// method agregarDuenio(pers) { duenios.add(pers)}
-//	//override method confort(persona) {
-//	//	if (self.esDuenio(persona)) {
-//	//	return super(persona) + (10 / duenios.size())	//}
-//	// 	else {return super(persona)}
-//	//}
-//	//} ver para modificar Banio
-//
-//	
-//	//method esDuenio(persona) {
-//	// return duenios.contains(persona)}
-//}
-//
-//class Cocina inherits Habitacion {
-//	
-//	method habilidadesCocina(habit) {
-//		if habit.tieneHabilidadesCocina() { return unidadesDeConfort + xx//calcula como un porcentaje de la cantidad de metros cuadrados de esa cocina
-//		}
-//	}
-//	
-//}
-//}
-//

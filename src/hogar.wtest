@@ -15,14 +15,18 @@ describe "Test Hogar" {
 		
 		fixture {
 			persona1.edad(16)
-			enano1.edad(3)		
-			dormitorio.agregarDuenio(persona1)
-			dormitorio.agregarDuenio(persona2)
 			persona1.esDuenio()
-			enano1.noEsDuenio()
+			dormitorio.agregarDuenio(persona1)
+			
+			persona2.edad(20)
 			persona2.esDuenio()
 			persona2.tieneHabilidad()
+			dormitorio.agregarDuenio(persona2)
 			
+			enano1.edad(3)		
+			enano1.noEsDuenio()
+			banio.entrarHabitacion(enano1)
+						
 			cocina.metrosCocina(10)
 		}	
 	
@@ -45,4 +49,21 @@ describe "Test Hogar" {
 		
 		assert.equals(11,cocina.unidadesDeConfort(persona2))
 	}
+	
+	test "entrar banio"{
+		banio.entrarHabitacion(persona1)
+		//banio.entrarHabitacion(persona2)
+		
+		assert.that(banio.estaEnHabitacion(persona1))
+	}
+	test "Entrar dormitorio"{
+		dormitorio.entrarHabitacion(persona1) //es duenio
+		dormitorio.entrarHabitacion(persona2) //es duenio
+		dormitorio.entrarHabitacion(enano1)// no es duenio
+		
+		//assert.that(dormitorio.estaEnHabitacion(persona2))
+		assert.that(dormitorio.estaEnHabitacion(enano1))
+		
+	}
+	
 }
